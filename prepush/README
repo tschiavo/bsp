@@ -1,0 +1,36 @@
+###############################################################################
+The file represents the hurdles that need to be cleared before trying
+to push a commit.
+###############################################################################
+
+pylint:: python static analysis tool
+
+install pylint: sudo pip install pylint
+
+Use this method to set up environment variables and such:
+
+    copy the .pylintrc file in this directory to /User/{{home}}
+
+    add to your .bashrc so that pylint will know the paths for all 
+    source packages. 
+    one path will be required for each level of package hierarchy. 
+
+        export PYTHONPATH=${PYTHONPATH}:{{path}}/beeaware/{{src}} 
+
+    for example:
+
+        export PYTHONPATH=${PYTHONPATH}:$HOME/beeaware/webapp
+
+    run pylint ./pages from ../beeaware/webapp (only clean package right now)
+
+Use this method to run in-place:
+
+    Run the in-place file
+   
+        ./runpylint.sh {{/location/to/beeaware/clone/}}
+
+    For example:
+
+        ./runpylint.sh ~/beeaware/
+
+todo: clean up other packages

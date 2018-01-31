@@ -1,0 +1,16 @@
+README
+setup.cfg
+flickrapi/__init__.py
+flickrapi/cache.py
+flickrapi/exceptions.py
+flickrapi/multipart.py
+flickrapi/reportinghttp.py
+flickrapi/shorturl.py
+flickrapi/tokencache.py
+flickrapi/xmlnode.py
+pip-egg-info/flickrapi.egg-info/PKG-INFO
+pip-egg-info/flickrapi.egg-info/SOURCES.txt
+pip-egg-info/flickrapi.egg-info/dependency_links.txt
+pip-egg-info/flickrapi.egg-info/requires.txt
+pip-egg-info/flickrapi.egg-info/top_level.txt
+pip-egg-info/flickrapi.egg-info/zip-safe

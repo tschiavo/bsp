@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+python main.py -l 0.0.0.0 -p 8888 -c 'dbname=beeaware user=postgres' \
+    -t 100000 -s -e beeaware.spriggle.net -r

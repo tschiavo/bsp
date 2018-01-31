@@ -1,0 +1,83 @@
+<div>
+<h3>Relationships:</h3>
+
+    <form 
+        action="{{user_search_url}}?origin={{relationships_url}}" 
+        style="display:inline" method="get">
+        <input type="submit" class="relbutton" value="add relationship" />
+    </form>
+
+    <div>
+    {{#sharinglevels}}
+    <a href="{{relationships_url}}?{{filter_atom}}={{id}}">{{descr}} | </a>
+    {{/sharinglevels}}
+    <a href="{{relationships_url}}?{{filter_atom}}=-1">all </a> 
+    </div>
+
+</div>
+
+<div id={{divid}}>
+    {{#relationships}}
+    <div class="{{relationship_class}}">
+        <a href="{{profile_url}}?{{other_u_id_atom}}={{u_id}}">
+            {{screen_name}}
+        </a>
+        <br/>
+        <br/>
+        <form 
+            action="{{sharing_level_url}}?{{other_u_id_atom}}={{u_id}}" 
+            style="display:inline" method="post">
+
+            <select 
+                id="{{sharing_level_id_atom}}" 
+                name="{{sharing_level_id_atom}}">
+                {{#levels}}
+                <option 
+                    value="{{sharing_level_id}}" 
+                    {{#sel}}selected={{/sel}}>{{sharing_level_descr}}
+                </option>
+                {{/levels}}
+            </select>
+
+            <input type="submit" class="relbutton" value="save" />
+        </form>
+        
+        <br/>
+
+        {{#display_cur_mood_age}}
+        {{cur_mood_age}} days old
+        {{/display_cur_mood_age}}
+
+        {{#display_img}}
+        <img src="{{img_filename}}" 
+            width="18" 
+            style="position:relative; top:5px"></img>
+        {{/display_img}}
+
+        <br/>
+        last spotted {{place_age}} ago @ {{place}}
+        <br/>
+        distance from me is {{rel_dist}}
+        <br/>
+        {{{address}}}
+
+    </div>
+    {{/relationships}}
+</div>
+
+{{#invitations_required}}
+<div style="clear:both">
+    <h3>Account Invitations:</h3>
+    <form action="{{create_invite_url}}" 
+        style="display:inline" method="post">
+        <input type="submit" class="relbutton" value="create invitation" />
+    </form>
+    <br/>
+    <br/>
+    {{#invite_tokens}}
+        Status: {{#is_used}}Used{{/is_used}}{{^is_used}}Unused{{/is_used}} :: 
+        Hyperlink: <a href="{{create_account_url}}?inv_tok={{invite_token}}">
+            Copy link location</a><br/>
+    {{/invite_tokens}}
+</div>
+{{/invitations_required}}

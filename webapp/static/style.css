@@ -1,0 +1,154 @@
+h1, h2, h3, h4, h5 {
+    margin-top: 1pt;
+    margin-bottom: 0pt
+}
+
+a {
+	text-decoration: none;
+	font-weight:bold;
+	color: #153E7E;
+}
+
+label {
+	width: 8em;
+	float: left;
+	text-align: right;
+	margin-right: 0.5em;
+	display: block
+}
+
+.submit input {
+	margin-left: 4.5em;
+}
+
+#notification {
+    display: none;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    border: 1px solid black;
+   -webkit-border-radius: 6px;
+      -moz-border-radius: 6px;
+           border-radius: 6px;
+    background: #ffff99;
+}
+
+input.relbutton {
+    border: solid 1px #cccccc;
+    background-color: #eeeeee;
+   -webkit-border-radius: 6px;
+      -moz-border-radius: 6px;
+           border-radius: 6px;
+    margin: 1pt;
+}
+
+button {
+    border: solid 1px #cccccc;
+    background-color: #eeeeee;
+    -webkit-border-radius: 6px;
+       -moz-border-radius: 6px;
+            border-radius: 6px;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 11px;
+    margin: 1pt;
+}
+
+body {
+    padding-top: 40px;
+    padding-bottom: 45px;
+    width: 100%;
+	font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+	font-size: 12px;
+	margin: 0pt;
+}
+
+maincontent {
+    width: 99%;
+}
+
+div {
+	padding: 2pt; 
+}
+
+div.message#outer, div#profile, div.relationship, div.profilesection {
+	/* width: 100%; */
+	border: 1px solid #C6E2FF;
+	margin: 2pt;
+    padding: 2pt;
+} 
+
+/* 
+div.messagex, div#profile { 
+	background-color: #E8F4FF;
+}
+*/
+
+div#profile {
+	padding-bottom: 8pt;
+}
+
+#navbar {
+    z-index: 200;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+	background: #87ceeb;
+}
+
+#samplepushcontrol { 
+    background: #C6E2FF;
+}
+#otherlocations { display: inline; }
+
+#location { 
+    display: inline; 
+    font-size: 7pt;
+    background: #CCFF99;
+}
+
+
+#location_settings { 
+    font-size: 8pt;
+    background: #CCFF99;
+}
+
+a:link {color:#000088;}      /* unvisited link */
+a:visited {color:#000088;}  /* visited link */
+a:hover {color:#000088;}  /* mouse over link */
+a:active {color:#000088;}  /* selected link */
+
+#tou {
+    font-size: 7pt;
+    background: #CCFF99;
+}
+
+select {
+	border: 1px solid #cccccc;
+	font-family: tahoma,verdana,arial,sans-serif;
+	font-size: 8pt;
+}
+
+input {
+	border: 1px solid #cccccc;
+	font-family: tahoma,verdana,arial,sans-serif;
+	font-size: 8pt;
+}
+
+form {
+	font-family: tahoma,verdana,arial,sans-serif;
+	font-size: 8pt;
+}
+
+#moodbar { 
+    padding-top: 8pt;
+    padding-left: 8pt;
+}
+
+#thefooter {
+    z-index: 200;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+	margin: 0pt;
+	padding: 0pt;
+}

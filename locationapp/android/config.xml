@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns     = "http://www.w3.org/ns/widgets"
+        id        = "io.cordova.helloCordova"
+        version   = "2.0.0">
+
+    <name>Beeaware Beacon</name>
+
+    <description>
+        This application logs your location and transmits it to the Beeaware server.
+    </description>
+
+    <author href="http://themoorecollective.com" email="themoorecollective@gmail.com">
+        The Moore Collective
+    </author>
+
+    <access origin="http://beeaware.spriggle.net"/>
+
+    <content src="http://beeaware.spriggle.net/login" />
+
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="useBrowserHistory" value="true" />
+    <preference name="exit-on-suspend" value="false" />
+
+    <feature name="App">
+        <param name="android-package" value="org.apache.cordova.App"/>
+    </feature>
+
+    <feature name="Device">
+        <param name="android-package" 
+            value="org.apache.cordova.Device" />
+    </feature>
+
+    <plugins>
+        <plugin name="Device" value="org.apache.cordova.Device" />
+        <plugin name="LocationRecorder" 
+            value="org.yerr.beeaware.beacon.LocationRecorder"/>
+    </plugins>
+</widget>
+

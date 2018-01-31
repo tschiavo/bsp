@@ -1,0 +1,23 @@
+<b>User Search:</b>
+<div>
+    <form action="{{url}}?{{action_atom}}=dosearch" 
+        style="display:inline" method="post">
+
+        <input name="{{input_atom}}" type="text" value="{{search_text}}" />
+        <input type="submit" value="Search" />
+
+    </form>
+</div>
+
+<div>
+<b>Matches:</b>
+{{#users}}
+<div>
+    [ <a href="{{invite_url}}?{{u_id_atom}}={{u_id}}&{{u_sn_atom}}={{screen_name}}">
+        invite
+    </a> ]
+    Profile: 
+    <a href="{{profile_url}}?{{u_id_atom}}={{u_id}}">{{screen_name}}</a>
+</div>
+{{/users}}
+</div>

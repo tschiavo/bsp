@@ -1,0 +1,58 @@
+<div class="{{divclass}}" id="{{divid}}" style="clear:both; overflow:auto">
+    {{#isnew}}
+    <form action="{{place_url}}?{{pid_atom}}={{pid}}&action=add" method="POST">
+    {{/isnew}}
+    {{^isnew}}
+    <form action="{{place_url}}?{{pid_atom}}={{pid}}&action=upd" method="POST">
+    {{/isnew}}
+        <div>
+            <input id={{descr_atom}} type="text" name={{descr_atom}} value="{{descr}}"/>
+            {{{map}}}
+            <br/>
+            <input id={{lat_atom}} type="text" name={{lat_atom}} value="{{lat}}"/>
+            <input id={{lon_atom}} type="text" name={{lon_atom}} value="{{lon}}"/>
+            <br/>
+            <input id={{at_dist_atom}} type="text" name={{at_dist_atom}} value="{{at_dist}}"/>
+        </div>
+        <div style="float:left">
+        {{#isnew}}
+            <input type="submit" class="relbutton" value="Add"/>
+        {{/isnew}}
+        {{^isnew}}
+            <input type="submit" class="relbutton" value="Update"/>
+        {{/isnew}}
+        </div>
+    </form>
+    {{^isnew}}
+    <div style="float:left">
+            <form action="{{place_url}}?{{pid_atom}}={{pid}}&action=del" method="POST">
+                <input type="submit" class="relbutton" value="Delete"/>
+            </form>
+        </div>
+    </form>
+    {{/isnew}}
+    {{#showhistory}}
+    <div style="clear:both">
+        <h3>History</h3>
+        <br/>
+        <table style="width:300">
+        <tr>
+        <th align="left">day</th>
+        <th align="left">date</th>
+        <th align="right">time</th>
+        <th align="center">clusters</th>
+        </tr>
+        {{#history}}
+        <tr>
+        <td align="left">{{{entry_day}}}</td>
+        <td align="left">{{{entry_date}}}</td>
+        <td align="right">{{total_visit_time}}</td>
+        <td align="center">{{visit_count}}</td>
+        </tr>
+        {{/history}}
+        </table>
+        <br/>
+    </div>
+    {{/showhistory}}
+            
+</div>

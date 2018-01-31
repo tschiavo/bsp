@@ -1,0 +1,33 @@
+<div class="{{divclass}}" id="{{divid}}" style="clear:both; overflow:auto">
+    <div style="clear:both">
+        <b>My Detailed Visit History</b>
+        <br/>
+        {{#clusters}}
+        <br/>
+        <b>{{entry_date}}</b>
+        <br/>
+        <br/>
+        <table style="width:300">
+        <tr>
+        <th align="left">entry day</th>
+        <th align="left">entry time</th>     
+        <th align="left">exit day</th>
+        <th align="left">exit time</th>
+        <th align="left">total time</th>
+        <th align="left">place</th>
+        </tr>
+        {{#items}}
+        <tr>
+        <td>{{entry_day}}</td>
+        <td>{{entry_time}}</td>
+        <td>{{exit_day}}</td>
+        <td>{{exit_time}}</td>
+        <td align="right">{{total_time}}</td>
+        <td>{{{place}}}</td>
+        </tr>
+        {{/items}}
+        </table>
+        <br/>
+        {{/clusters}}
+    </div>
+</div>

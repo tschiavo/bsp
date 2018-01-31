@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+
+        <title>Prototype</title>
+        
+        <script type="text/javascript" src="js/cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/locationrecorder.js"></script>
+        <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+        
+        <script type="text/javascript">
+            locationRecorder = window.plugins.LocationRecorder;
+            
+            app.initialize();
+            
+            showMsg = function(msg) {
+                $('#msg').prepend('<div>'+msg+'</div>');
+            }
+            onSuccess = function(msg) {
+                showMsg(msg);
+            }
+            onError = function(msg) {
+                showMsg('Error: ' + msg);
+            }
+            checkStatus = function(status) {
+                if(status) {
+                    showMsg("Service is running");
+                } else {
+                    showMsg("Service is not running");
+                }
+            }
+            function displayItems(data) {
+                showMsg(JSON.stringify(data));
+            }
+        </script>
+    </head>
+    <body>
+        <div style="padding:10px">
+            <ul id="menu">
+                <li><a href="#" onclick="locationRecorder.startService(displayItems, onError);return false;">Start Service</a></li>
+                <li><a href="#" onclick="locationRecorder.stopService(displayItems, onError);return false;">Stop Service</a></li>
+                <li><a href="#" onclick="locationRecorder.isServiceRunning(displayItems, onError);return false;">Is Service Running</a></li>
+                <li><a href="#" onclick="locationRecorder.getOldestItems([5], displayItems, onError);return false;">Get 5 Oldest Items</a></li>
+                <li><a href="#" onclick="locationRecorder.getOldestItem, displayItems, onError);return false;">Get Oldest Item</a></li>
+                <li><a href="#" onclick="locationRecorder.removeOldestItem(displayItems, onError);return false;">Remove Oldest Item</a></li>
+                <li><a href="#" onclick="locationRecorder.removeOldestItems([5], displayItems, onError);return false;">Remove 5 Oldest Items</a></li>
+                <li><a href="#" onclick="locationRecorder.getItemCount(displayItems, onError);return false;">Get Item Count</a></li>
+                <li><a href="#" onclick="locationRecorder.getPollingIntervalSeconds(displayItems, onError);return false;">Get Polling Interval</a></li>
+                <li><a href="#" onclick="locationRecorder.setPollingIntervalSeconds([11], displayItems, onError);return false;">Set Polling Interval 11</a></li>
+                <li><a href="#" onclick="locationRecorder.getBatchUploadSize(displayItems, onError);return false;">Get Batch Upload Size</a></li>
+                <li><a href="#" onclick="locationRecorder.setBatchUploadSize([1000], displayItems, onError);return false;">Set Batch Upload Size 1000</a></li>
+            </ul>
+            <h1>Output</h1>
+            <div id="msg">
+                <div>---</div>
+            </div>
+        </div>
+    </body>
+</html>

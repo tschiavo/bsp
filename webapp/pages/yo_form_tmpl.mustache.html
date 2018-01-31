@@ -1,0 +1,29 @@
+<div>
+    <h2>Yo!</h2>
+</div>
+<br/>
+
+<form action="{{yo_url}}?{{to_query}}={{to_u_id}}&{{action}}={{action_value}}&{{msg_id_key}}={{msg_id}}" method="POST">
+
+    <label for="{{from_id}}">From:</label>
+
+    <select id="{{from_id}}" name="{{from_form}}">
+        <option value={{from_u_id}}>Me</option>
+    </select>
+    <br/>
+
+    <label for="{{to_id}}">To:</label>
+    <select id="{{to_id}}" name="{{to_form}}">
+        <option value="{{to_u_id}}">{{to_screen_name}}</option>
+    </select>
+    <br/>
+
+    <label for="{{note_id}}">Note:</label>
+    <textarea maxlength="140" rows="4" cols="30" 
+        id="{{note_id}}" name="{{note_form}}">{{note}}</textarea>
+    <br/>
+
+    <label for="{{btn_id}}">&nbsp;</label>
+    <input type="submit" class="{{btn_class}}" value="send" 
+        id="{{btn_id}}" />
+</form>

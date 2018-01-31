@@ -1,0 +1,46 @@
+<div class="{{divclass}}" id="{{divid}}" style="clear:both; overflow:auto">
+    <div>
+        {{{places_url}}} &nbsp; | &nbsp; {{{places_recalc_url}}}
+    </div>
+    <div style="clear:both">
+        <h2>My Top Places</h2>
+        <table style="width:300">
+        <tr>
+        <th align="left">place</th>
+        <th align="right">total time</th>
+        </tr>
+        {{#top_places}}
+        <tr>
+        <td>{{{place_url}}}</td>
+        <td align="right">{{total_time}}</td>
+        </tr>
+        {{/top_places}}
+        </table>
+        <br/>
+    </div>
+
+    <div style="clear:both">
+        <h2>My History</h2>
+        <br/>
+        {{#visits}}
+        <h3>{{{datelink}}}</h3>
+        <table style="width:300">
+        <tr>
+        <th align="left">place</th>
+        <th align="right">time</th>
+        <th align="right">clusters</th>
+        <th align="right">dist</th>
+        </tr>
+        {{#items}}
+        <tr>
+        <td align="left">{{{place}}}</td>
+        <td align="right">{{visit_time}}</td>
+        <td align="right">{{visit_count}}</td>
+        <td align="right">{{dist}}</td>
+        </tr>
+        {{/items}}
+        </table>
+        <br/>
+        {{/visits}}
+    </div>
+</div>

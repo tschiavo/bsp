@@ -1,0 +1,15 @@
+delete from password 
+	where u_id in ( 
+		select u_id from _user 
+			where screen_name ~ '^[a-z]{8}$' 
+	);
+
+delete from _user_session 
+	where u_id in ( 
+		select u_id from _user 
+			where screen_name ~ '^[a-z]{8}$' 
+	);
+
+delete from _user 
+	where _user.screen_name ~ '^[a-z]{8}$';
+

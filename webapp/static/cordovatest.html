@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="
+			width=device-width, initial-scale=1.0, 
+			maximum-scale=1.0, target-densitydpi=medium-dpi, 
+			user-scalable=0
+			" />
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <title>Cordova Test</title>
+    </head>
+    <body>
+		<h1>Cordova Test</h1>
+
+		<a href="locationrecorder.html">&lt;&lt;&lt; Back to the recorder</a>
+
+		<div id="logbucket">
+		</div>
+
+		<script type="text/javascript">
+
+			function log(x) {
+				dest = document.getElementById('logbucket');
+				dest.innerHTML = x + '<br/>' + dest.innerHTML;
+				//dest.innerHTML += '<br/>'
+			}
+
+			u = ""
+			for(v in navigator) { u += v + ' '; }
+			log("navigator: " + u);
+
+			log("navigator.appName: " + navigator.appName);
+			log("navigator.vendorSub: " + navigator.vendorSub);
+			log("navigator.platform: " + navigator.platform);
+			log("navigator.product: " + navigator.product);
+
+			u = ""
+			for(v in navigator.plugins) { u += v + ' '; }
+			log("navigator.plugins: " + v);
+
+			u = ""
+			for(v in window) { if(v.indexOf('_')!=-1) { u += v + ' '; } }
+			log("Underscores: " + u);
+
+			log("window.PhoneGap: " + window.PhoneGap);
+			log("window.Cordova: " + window.Cordova);
+			log("window.cordova: " + window.cordova);
+
+			log("Android: " + window._cordovaNative);
+			log("iOS: " + window._nativeReady);
+
+			log(navigator.userAgent);
+
+			var deviceType = 
+				(navigator.userAgent.match(/iPad/i))  == 
+					"iPad" ? "iPad" : 
+				(navigator.userAgent.match(/iPhone/i))  == 
+					"iPhone" ? "iPhone" : 
+				(navigator.userAgent.match(/Android/i)) == 
+					"Android" ? "Android" : 
+				(navigator.userAgent.match(/BlackBerry/i)) == 
+					"BlackBerry" ? "BlackBerry" : "null";
+
+			var file="";
+
+			if (deviceType == "iPad" || deviceType == "iPhone"){
+				file="cordova.ios.js";
+			} else if (deviceType == "Android") {
+				file="cordova.android.js";
+			}
+
+			if(file != "") {
+				var js = document.createElement('script');
+				js.type = "text/javascript";
+				js.src = file;
+
+				var h = document.getElementsByTagName('head')[0];
+				h.appendChild(js);
+			}
+
+			setTimeout(function(){log("iOS1: " + window._nativeReady)}, 1000);
+			setTimeout(function(){log("iOS2: " + window._nativeReady)}, 2000);
+			setTimeout(function(){log("iOS3: " + window._nativeReady)}, 3000);
+			setTimeout(function(){log("iOS4: " + window._nativeReady)}, 4000);
+			setTimeout(function(){log("iOS5: " + window._nativeReady)}, 5000);
+			setTimeout(function(){log("iOS6: " + window._nativeReady)}, 6000);
+			setTimeout(function(){log("iOS7: " + window._nativeReady)}, 7000);
+			setTimeout(function(){log("iOS8: " + window._nativeReady)}, 8000);
+			setTimeout(function(){log("iOS9: " + window._nativeReady)}, 9000);
+			setTimeout(function(){log("iOS10: " + window._nativeReady)}, 10000);
+
+		</script>
+    </body>
+</html>
+

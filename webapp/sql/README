@@ -1,0 +1,131 @@
+The webapp README says most of what you need to know about getting a 
+fresh start.
+
+This README will contain more information about migrating data, including
+techniques, example scripts that have been used in the past, and specific
+information about some of the authentication/credentials required to do so.
+
+[[Authentication]]
+
+The following sudo configuration allows for the authentication required to
+modify dhe operational environment without sharing passwords between devs.
+
+    $ cat /etc/sudoers.d/LetDevelopersDoOps 
+    %developers ALL=(ops) NOPASSWD: /bin/bash
+
+The rule above lets people in the developers group do the following:
+
+    sudo -u ops -s
+
+The end result is running a shell as the ops account. Ultimately, this will
+be necessary to modify operational database schema, but for the moment, it
+is just an aside.
+
+For now, running the following will get you into the database:
+
+    $ psql -U postgres
+
+Once in, move the current database out of the way:
+
+    alter database beeaware rename to beeaware-some-descriptive-suffix
+
+Now, you can create the new database with the sql script you've updated in
+accordance with the main webapp README
+
+[[Techniques]]
+
+Since we use Postgresql 9.1, we use dblink to query one database and pull
+results into another database for migration. There is plenty of general
+documentation about dblink on the entire Internet.
+
+DBLink is a postgresql extension that must be included in the destination
+database using the following:
+
+    create extension "dblink";
+
+And the following is a useful command to execute to cache a db connection to
+the source database:
+
+    select dblink_connect('myconn', 'dbname=beeaware');
+
+In the examples below, it is assumed that the exension has been loaded and
+that the 'myconn' cache has been established.
+
+[[Examples]]
+
+Here are some example queries to get one database's data to another. In 
+the following example, one fairly different schema was used in the old
+database versus the new one:
+
+    insert into _user 
+        (u_id, screen_name, email, name, 
+            country, phone, profile_pic, profile_pic_mimetype) 
+        select i,s,e,n,c,p,pp,ppm from 
+            dblink('myconn', '
+                select e_id, screen_name, email, name, country, 
+                    phone, profile_pic, profile_pic_mimetype 
+                from entity
+            ')
+        as 
+            t(i uuid, s varchar(20), e varchar(384), 
+                n varchar(128), c varchar(128), 
+                p varchar(128), pp bytea, ppm varchar(128)) 
+        where i not in (select u_id from _user)
+    ;
+
+When run, this pulled data from a table called 'entity' in the old database
+and inserted it into a table called '_user' in the new database. Information
+about the columns specified in the t() function can be derived by running
+the following command in the database where the entity table exists:
+
+    \d entity
+
+The output will show column types, keys, constraints, etc.
+
+Here is another example query where a new database was used for long enough
+such that the user IDs were not preserved, so a more attentive mapping was
+required to migrate data from the old database to the new one:
+
+    with x as (
+        select id, mtid, osn, fsn, tsn
+        from 
+            dblink('myconn', '
+                select 
+                    message_id, 
+                    mood_type_id, 
+                    ou.screen_name as osn, 
+                    fu.screen_name as fsn, 
+                    tu.screen_name as tsn
+                from mood_message
+                    join message on message.id = mood_message.message_id
+                    join _user as ou on message.owner_u_id = ou.u_id
+                    join _user as fu on message.from_u_id = fu.u_id
+                    join _user as tu on message.to_u_id = tu.u_id
+                ') 
+        as 
+            t(id uuid, mtid integer, 
+                osn varchar(100), fsn varchar(100), tsn varchar(100))
+        
+        where 
+            osn in (select screen_name from _user) and
+            fsn in (select screen_name from _user) and
+            tsn in (select screen_name from _user)
+    )
+        
+    insert into mood_message (message_id, mood_type_id)
+
+    select id, mtid from x;
+
+This query pulled mood_message entries and output the screen names associated
+with the messages. These screen names were then looked up in the existing
+database to find matches. If a match was found, then they were output in
+the Common Table Expression (CTE) named x. Then, we can pick which fields
+can be pulled from x in our insert statement.
+
+The options are limitless, and every table requires a little bit different
+approach, but hopefully, these examples will show how some one-time-use
+queries can be executed to migrate data when the schema changes too much
+to merely alter tables at runtime and an entire database wipe needs to occur.
+
+ENJOY!
+    

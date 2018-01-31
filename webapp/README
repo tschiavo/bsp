@@ -1,0 +1,90 @@
+This is compatible with Debian wheezy. You can enjoy spending your 
+free time porting it if you wish. The recommended development setup 
+is using a virtual machine to do development, so consider yourself 
+informed :)
+
+Package Sources to manage:
+	In /etc/apt/sources.list:
+	* Ensure no cdrom sources are enabled (comment lines prefixed with cdrom)
+	* Run:
+		sudo apt-get update
+
+Things to install:
+	sudo apt-get install git # should not have to get this!
+	sudo apt-get install python
+	sudo apt-get install python-pip
+	sudo apt-get install postgresql-client
+	sudo apt-get install postgresql
+	sudo apt-get install postgresql-contrib
+	sudo apt-get install libpq-dev 
+	sudo apt-get install python2.7-dev
+	sudo apt-get install libevent-dev
+	sudo pip install psycopg2
+	sudo pip install bottle
+	sudo pip install gevent
+	sudo pip install pystache (new as of 2013/11/10)
+	sudo pip install twitter-text-python (new as of 2013/12/21)
+    sudo pip install pyzmail (new as of 2014/10/11)
+        helps with testing on local machine that does not have mail server
+
+Things to configure:
+	* Add your listening interfaces' IP addresses to /etc/hosts
+	* For this file: 
+		/etc/postgresql/9.1/main/pg_hba.conf
+	  Append these entries:
+		local   all     all                             trust
+		host    all     all     127.0.0.1/32            trust
+	  Comment these entries if they exist:
+		#local   all         all                        ident
+		#local   all         postgres                   ident
+		#local   all         postgres                   peer
+		#host    all         all         127.0.0.1/32   md5
+		#host    all         all         ::1/128        md5
+
+	* Assign a secure password to the postgres user
+	* Run 'sudo -u postgres psql'
+	* Run:
+		ALTER USER postgres PASSWORD 'areallysecurepassword';
+	* Ctrl+D out
+
+Set up the database:
+	cd sql
+	./reinitdb.sh beeawaredatabasename
+
+Steps to run:
+	Ensure python is in your path
+	python main.py -l 0.0.0.0 -p 8202 -c 'dbname=beeaware user=postgres' \
+		-t 100000 -s
+
+Steps to view:
+	Browse to http://localhost:8202
+
+How to Develop:
+	Tony:
+		git clone ssh://host/path/repo.git 
+	Buddy:
+		git clone ssh://host/path/repo.git
+		<touch/add new files>
+		git add buddysnewfile.py #adds new file
+		<modify existing files>
+		git commit -a #commits files
+		git fetch
+		git rebase origin/master
+		git push
+	Tony:
+		<touch/add new files>
+		git add tonysnewfile.py #adds new file
+		<modify existing files>
+		git commit -a #commits files
+		git fetch
+		git rebase origin/master # now has Buddy's changes
+		git push
+	Buddy:
+		<touch/add new files>
+		git commit -a newfile.py
+		<modify existing files>
+		git commit -a #commits files
+		git fetch
+		git rebase origin/master # now has Tony's changes
+		git push
+

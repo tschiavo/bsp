@@ -1,0 +1,16 @@
+# Copyright 2014 The Moore Collective, LLC, All Rights Reserved
+
+PLACE_ID = 'place_id'
+ACCURACY = 'acc'
+ALTITUDE = 'alt'
+LATITUDE = 'latitude'
+LONGITUDE = 'longitude'
+ALTITUDE = 'altitude'
+AT_DIST = 'dist_at'
+PROXIMITY = 'proximity'
+TIME = 'time'
+LEN = 'len'
+ORIGIN = 'origin'
+DESCR = 'descr'
+DISPLAY = 'display'
+EXPORT = 'export'

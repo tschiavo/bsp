@@ -1,0 +1,22 @@
+<div id={{divid}}>
+
+    {{#daycounts}}
+        <a href="{{url}}?historyfilter={{days}}">{{descr}}</a> 
+        {{^islast}} | {{/islast}}
+    {{/daycounts}}
+
+</div>
+
+<div id={{divid}} style="float:left; overflow:auto">
+    {{#words}}
+    <div style="float:left; overflow:auto">
+        <div style="
+            display:table-cell; 
+            height:70px; 
+            vertical-align:middle; 
+            clear:both">
+            <b style="font-size:{{size}}px">{{word}}</b>
+        </div>
+    </div>
+    {{/words}}
+</div>

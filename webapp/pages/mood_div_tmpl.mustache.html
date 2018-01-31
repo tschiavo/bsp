@@ -1,0 +1,61 @@
+<div class="mood {{divclass}}" id="{{divid}}" style="clear:both; overflow:auto">
+    <div class="{{divclass}}" style="float:left">
+        <img src="{{mood_img}}" height="32" width="32"></img>
+    </div>
+    <div class="{{divclass}}" style="float:left">
+        <b>{{msg_time}}</b><br/>
+        {{{maplink}}}<br/>
+        {{{weatherstr}}}
+    </div>
+    {{^isme}}
+    <div style="float:right">
+        <h2>
+        <a href="{{yo_url}}?{{to_u_id_atom}}={{u_id}}&{{yo_action}}={{yo_action_value}}&msg_id={{msg_id}}">Yo!</a>
+        </h2>
+    </div>
+    {{/isme}}
+    {{#isme}}
+    <div class"{{divclass}}" style="float:right">
+    <div class"{{divclass}}" style="float:right">
+        <form action="{{post_url}}?{{action_key}}={{action_archive}}&{{msg_id_key}}={{msg_id}}" method="POST">
+            <input type="submit" class="relbutton" value="archive"/>
+        </form>
+    </div>
+    <div class"{{divclass}}" style="float:right">
+        <form action="{{post_url}}?{{action_key}}={{action_delete}}&{{msg_id_key}}={{msg_id}}" method="POST">
+            <input type="submit" class="relbutton" value="trash"/>
+        </form>
+    </div>
+    <div class"{{divclass}}" style="float:right">
+        <form action="{{get_url}}" method="GET">
+            <input type="hidden" name="{{action_key}}" value="{{action_edit}}" />
+            <input type="hidden" name="{{msg_id_key}}" value="{{msg_id}}" />
+            <input type="submit" class="relbutton" value="edit"/>
+        </form>
+    </div>
+    </div>
+    {{/isme}}
+    <div style="clear:both">
+        {{#isme}} 
+        {{#isprivate}}
+        <b>not sharing</b>
+        {{/isprivate}}
+        {{^isprivate}}
+        <b>sharing with {{sharing_level_descr}} relationships</b>
+        {{/isprivate}}
+        <br/>
+        {{/isme}}
+        <br/>
+        {{msg_body}}
+    </div>
+    {{#isme}}
+    {{#has_yo_msgs}}
+    <br/>
+    <div class"{{divclass}}" style="float:right">
+        <form action="{{msgs_url}}?{{msg_id_key}}={{msg_id}}&{{msg_show_yo_key}}=1" method="POST">
+            <input type="submit" class="relbutton" value="show yo messages"/>
+        </form>
+    </div>
+    {{/has_yo_msgs}}
+    {{/isme}}
+</div>

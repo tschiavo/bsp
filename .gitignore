@@ -1,0 +1,7 @@
+*.pyc
+*.swp
+webapp/static/BeeawareBeacon-debug.apk
+webapp/out.log
+webapp/stats
+phone
+.DS_Store

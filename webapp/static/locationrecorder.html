@@ -1,0 +1,333 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="
+			width=device-width, initial-scale=1.0, 
+			maximum-scale=1.0, target-densitydpi=medium-dpi, 
+			user-scalable=0
+			" />
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <title>Beeaware</title>
+    </head>
+    <body>
+		<h1>Location Beacon</h1>
+
+		<div id="deviceloading">
+			Loading the Location Recorder Controls! If they never load, you're probably need to download a Cordova-based Beeaware Beacon.
+		</div>
+
+        <div id="deviceready" style="display:none">
+			<p>Once you have logged in and have started the beacon (this page), you may go to the home screen, lock your phone, etc.</p>
+			Service:<br/>
+			<input id="serviceStatus" type="text" value="???" 
+				disabled="disabled"/>
+			<button onclick="startService()">On</button>
+			<button onclick="stopService()">Off</button>
+			<br/>
+			Current Polling Interval (s):<br/>
+			<input id="intervalStatus" type="text" value="???" 
+				disabled="disabled"/>
+			<button onclick="getPollingIntervalSeconds()">Refresh</button>
+			<br/>
+			Set Polling Interval (s):<br/>
+			<input id="intervalCommand" type="text" value="???"/>
+			<button onclick="updateInterval()">Update</button>
+			<br/>
+			Count:<br/>
+			<input id="count" type="text" value="???" disabled="disabled"/>
+			<button onclick="getItemCount()">Refresh</button>
+			<br/>
+			Upload Batch Size:<br/>
+			<input id="uploadBatchSize" type="text" value="100"/>
+			<br/>
+			Uploading:<br/>
+			<input id="uploading" type="text" value="???" disabled="disabled"/>
+			<button onclick="turnUploadingOn()">On</button>
+			<button onclick="turnUploadingOff()">Off</button>
+        </div>
+
+		<br/>
+		<br/>
+		<a href="BeeawareBeacon-debug.apk">Android Beacon Download</a>
+		<br/>
+		<br/>
+		<a href="cordovatest.html">Cordova Test</a>
+		<br/>
+		<br/>
+		<a href="login">&lt;&lt;&lt; Back to the login Screen</a>
+
+		<div id="logbucket">
+		</div>
+
+		<script type="text/javascript">
+
+			function log(x) {
+				dest = document.getElementById('logbucket');
+				dest.innerHTML = x + '<br/>' + dest.innerHTML;
+				//dest.innerHTML += '<br/>'
+			}
+
+			var deviceType = 
+				(navigator.userAgent.match(/iPad/i))  == 
+					"iPad" ? "iPad" : 
+				(navigator.userAgent.match(/iPhone/i))  == 
+					"iPhone" ? "iPhone" : 
+				(navigator.userAgent.match(/Android/i)) == 
+					"Android" ? "Android" : 
+				(navigator.userAgent.match(/BlackBerry/i)) == 
+					"BlackBerry" ? "BlackBerry" : "null";
+
+			var file="";
+
+			if (deviceType == "iPad" || deviceType == "iPhone"){
+				file="cordova.ios.js";
+			} else if (deviceType == "Android") {
+				file="cordova.android.js";
+			}
+
+			if(file != "") {
+				var js = document.createElement('script');
+				js.type = "text/javascript";
+				js.src = file;
+
+				var h = document.getElementsByTagName('head')[0];
+				h.appendChild(js);
+			}
+		</script>
+
+        <script type="text/javascript" src="index.js"></script>
+        <script type="text/javascript" src="locationrecorder.js"></script>
+        <script type="text/javascript">
+
+            app.initialize();
+            var recorder = window.plugins.LocationRecorder;
+			var uploading = false;
+
+            function startService() {
+                recorder.startService(
+                    function(theret) { isServiceRunning(); },
+                    function() { alert('startService fail'); }
+                );
+            }
+
+			firstRun = true;
+            function isServiceRunning() {
+                recorder.isServiceRunning(
+                    function(theret) { 
+						updateServiceStatus(theret.isRunning); 
+					},
+                    function() { 
+						if(!firstRun) {
+							alert('isServiceRunning fail'); 
+							log(new Error().stack);
+						} else {
+							firstRun = false;
+						}
+					}
+                );
+            }
+
+            function stopService() {
+                recorder.stopService(
+                    function(theret) { stopService(theret); },
+                    function() { alert('stopService fail'); }
+                );
+            }
+
+            function setPollingIntervalSeconds(params) {
+                recorder.setPollingIntervalSeconds(
+					params,
+                    function(theret) {  },
+                    function() { alert('setPollingInterval fail'); }
+                );
+            }
+
+            function getPollingIntervalSeconds() {
+                recorder.getPollingIntervalSeconds(
+                    function(theret) { 
+						//log('ret: ' + theret);
+						//log('ret.pollingIntervalSeconds: ' + 
+						//    theret.pollingIntervalSeconds);
+						refreshInterval(theret.pollingIntervalSeconds); 
+					},
+                    function() { alert('getPollingInterval fail'); }
+                );
+            }
+
+            function getItemCount() {
+                recorder.getItemCount(
+                    function(theret) { 
+						refreshCount(theret.count); 
+					},
+                    function() { alert('getItemCount fail'); }
+                );
+            }
+
+            function getOldestItem() {
+                recorder.getOldestItem(
+                    function(theret) { processLocations(theret); },
+                    function() { alert('getOldestItem fail'); }
+                );
+            }
+
+            function getOldestItems(params) {
+                recorder.getOldestItems(
+					params,
+                    function(theret) { processLocations(theret); },
+                    function() { alert('getOldestItems fail'); }
+                );
+            }
+
+            function removeOldestItems(params) {
+                recorder.removeOldestItems(
+					params,
+                    function() { },
+                    function() { alert('removeOldestItems fail'); }
+                );
+            }
+
+            function removeOldestItem() {
+                recorder.removeOldestItem(
+                    function() { },
+                    function() { alert('removeOldestItem fail'); }
+                );
+            }
+
+			function processLocations(locs) {
+				if(locs.locations.length > 0) {
+					sendLocation(locs)
+				}
+			}
+
+			function sendLocation(loc) {
+
+                //log("in sendLocation");
+				var xhr = getXhr();
+				if(xhr != null) {
+					var url = 'location'
+					var sendstr = JSON.stringify(loc);
+
+					xhr.open("POST", url, true);
+					xhr.setRequestHeader("Content-Type", 
+						"application/json; charset=utf-8");
+					xhr.onreadystatechange = function() {
+                        //log("in xhr.onreadystatechange");
+                        //log(xhr.readyState)
+                        //log(xhr.status)
+						if(xhr.readyState == 4 && xhr.status == 200) {
+							resp = xhr.responseText
+							if(resp == "ok") {
+								//log(loc.locations.length);
+                                //log("pre removeOldestItems");
+								removeOldestItems([loc.locations.length]);
+							} else {
+                                //log("unexpected xhr status, log resp");
+								log(resp);
+							}
+						}
+					};
+
+                    //log("xhr.send");
+					xhr.send(sendstr); 
+				}
+			}
+
+			function getXhr() {
+				var xhr = null;
+
+				if (window.XMLHttpRequest)
+				{
+					xhr = new XMLHttpRequest();
+				}
+				else
+				{
+					xhr = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+
+				return xhr;
+			}
+
+			function updateServiceStatus(val) {
+				//log('Service: ' + val);
+				dest = document.getElementById('serviceStatus');
+				dest.value = val;
+			}
+
+			function refreshCount(val) {
+				dest = document.getElementById('count');
+				dest.value = val;
+			}
+
+			function refreshInterval(val) {
+				dest = document.getElementById('intervalStatus');
+				dest.value = val;
+				//log('Inside refreshInterval: ' + val);
+			}
+
+			function updateInterval() {
+				src = document.getElementById('intervalCommand');
+				setPollingIntervalSeconds([parseInt(src.value)]);
+			}
+
+			function turnUploadingOn() {
+				uploading = true;
+				updateUploading();
+			}
+
+			function turnUploadingOff() {
+				uploading = false;
+				updateUploading();
+			}
+
+			function updateUploading() {
+				dest = document.getElementById('uploading');
+				dest.value = uploading;
+			}
+
+			function doUploading() {
+				if(uploading) {
+					src = document.getElementById('uploadBatchSize');
+					qty = parseInt(src.value);
+					getOldestItems([qty]);
+				}
+			}
+
+			function updateLoop() {
+				isServiceRunning();
+				getPollingIntervalSeconds();
+				getItemCount();
+				updateUploading();
+				doUploading();
+				setTimeout(updateLoop, 1000);
+			}
+
+			updateUploading();
+
+			function oneShot() {
+
+				// BUG: first call to plugin is barfing. Not sure why
+				isServiceRunning();
+
+				loading = document.getElementById('deviceloading');
+				ready = document.getElementById('deviceready');
+
+				loading.style.display='none';
+				ready.style.display='inline';
+
+				/*
+				recorder.getOldestItems(
+					[1000],
+					function(theret) { log(JSON.stringify(theret)); },
+					function() { alert('getOldestItems fail'); } 
+				);
+				*/
+
+				updateLoop();
+			}
+
+            document.addEventListener("deviceready", oneShot, true);
+        </script>
+    </body>
+</html>
+

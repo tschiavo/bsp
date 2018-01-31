@@ -1,0 +1,23 @@
+<div>
+    <b>send an invite...</b>
+</div>
+<br/>
+
+<form action="{{invite_url}}?{{to_atom}}={{to_u_id}}" method="POST">
+        <label for="{{from_atom}}">From:</label>
+        <select id="{{from_atom}}" name="{{from_atom}}">
+            <option value={{from_u_id}}>Me</option>
+        </select>
+        <br/>
+        <label for="{{to_atom}}">To:</label>
+        <select id="{{to_atom}}" name="{{to_atom}}">
+            <option value="{{to_u_id}}">{{to_screen_name}}</option>
+        </select>
+        <br/>
+        <label for="{{note_atom}}">Note:</label>
+        <textarea maxlength="384" rows="4" cols="30" 
+            id="{{note_atom}}" name="{{note_atom}}">{{note}}</textarea>
+        <br/>
+        <label for="{{btn_id}}">&nbsp;</label>
+        <input type="submit" class="{{btn_class}}" value="send" id="{{btn_id}}" />
+</form>

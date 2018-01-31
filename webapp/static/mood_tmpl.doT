@@ -1,0 +1,15 @@
+{{~it.moods :v}}
+<div class="{{=v.classid}}" id="topmost" style="clear:both; overflow:auto">
+	<div class="{{=v.classid}}" style="float:left">
+		<img src="{{=v.mood_img}}" height="32" width="32"></img>
+	</div>
+	<div class="{{=v.classid}}" style="float:left">
+		<b>{{=v.msg_time}}</b> 
+		<a href="{{=v.send_url}}?{{=v.msg_id_atom}}={{=v.msg_id}}">revise</a>:
+		<a href="{{=v.delete_url}}?{{=v.msg_id_atom}}={{=v.msg_id}}">remove</a>:
+		<div style="clear:both">
+			{{=v.msg_body}}
+		</div>
+	</div>
+</div>
+{{~}}

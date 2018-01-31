@@ -1,0 +1,37 @@
+<div>
+    <b>send a vibe...</b>
+</div>
+<br/>
+
+<form action="{{url}}?{{action_key}}={{action}}{{#is_update}}&{{msg_id_key}}={{msg_id}}{{/is_update}}" method="POST">
+    <label for="{{to_key}}">to:</label>
+    <select id="{{to_key}}" name="{{to_key}}">
+        <option value="{{to_email_key}}">Me</option>
+        <option value="{{to_user_key}}">Anonymous</option>
+    </select>
+    <br/>
+    <label for="{{from_key}}">from:</label>
+    <select id="{{from_key}}" name="{{from_key}}">
+        <option value="self">Me</option>
+    </select>
+    <br/>
+    <label for="{{mood_type_id_key}}">mood:</label>
+    <select id="{{mood_type_id_key}}" name="{{mood_type_id_key}}">
+        {{#mood_types}}
+          <option value="{{value}}" {{#sel}}selected={{/sel}}>{{descr}}</option>
+        {{/mood_types}}
+    </select>
+    <br/>
+    <label for="{{sharing_level_id_key}}">share with:</label>
+    <select id="{{sharing_level_id_key}}" name="{{sharing_level_id_key}}">
+        {{#sharing_levels}}
+          <option value="{{value}}" {{#sel}}selected={{/sel}}>{{descr}}</option>
+        {{/sharing_levels}}
+    </select>
+    <br/>
+    <label for="{{note_key}}">Note:</label>
+    <textarea maxlength="384" rows="4" cols="30" id="{{note_key}}" name="{{note_key}}">{{#is_update}}{{note}}{{/is_update}}</textarea>
+    <br/>
+    <label for="{{send_btn_key}}">&nbsp;</label>
+    <input type="submit" class={{button_class}} value="Send" id="{{send_btn_key}}" />
+</form>

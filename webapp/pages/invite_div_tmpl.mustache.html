@@ -1,0 +1,53 @@
+<div class="invite {{class_atom}}" id="{{id_key}}" style="clear:both; overflow:auto">
+    <div class="{{class_atom}}" style="float:left">
+        <img src="{{img}}" height="32" width="32"></img>
+    </div>
+    <div class="{{header_class_atom}}" style="float:left">
+        <b>{{msg_time}}</b>
+        <br/>
+        to: <a href="{{profile_url}}?{{u_id_key}}={{to_id}}">{{to_sn}}</a>
+        from: <a href="{{profile_url}}?{{u_id_key}}={{from_id}}">{{from_sn}}</a>
+    </div>
+    <div class"{{divclass}}" style="float:right">
+        <form action="{{post_url}}?{{action_key}}={{action_archive}}&{{msg_id_key}}={{msg_id}}" method="POST">
+            <input type="submit" class="relbutton" value="archive"/>
+        </form>
+    </div>
+    <div class"{{divclass}}" style="float:right">
+        <form action="{{post_url}}?{{action_key}}={{action_delete}}&{{msg_id_key}}={{msg_id}}" method="POST">
+            <input type="submit" class="relbutton" value="trash"/>
+        </form>
+    </div>
+    <div class="{{class_atom}}" style="clear:both">
+        {{#ispending}}
+        <b>status: pending</b>
+        {{/ispending}}
+    
+        {{#isaccepted}}
+        <b>status: accepted</b>
+        {{/isaccepted}}
+    
+        {{#isrejected}}
+        <b>status: rejected</b>
+        {{/isrejected}}
+    </div>
+    <div>
+    {{#ispending}}
+    {{#isresponder}}
+    <div class"{{divclass}}" style="float:left; clear:both">
+        <form action="{{invitation_response_url}}?{{msg_head_id_key}}={{msg_head_id}}&{{msg_id_key}}={{msg_id}}&{{action_atom}}={{accept_action}}" method="POST">
+            <input type="submit" class="relbutton" value="accept"/>
+        </form>
+    </div>
+    <div class"{{divclass}}" style="float:left">
+        <form action="{{invitation_response_url}}?{{msg_head_id_key}}={{msg_head_id}}&{{msg_id_key}}={{msg_id}}&{{action_atom}}={{reject_action}}" method="POST">
+            <input type="submit" class="relbutton" value="reject"/>
+        </form>
+    </div>
+    {{/isresponder}}
+    {{/ispending}}
+    </div>
+    <div class="{{class_atom}}" style="clear:both">
+        {{msg_body}}
+    </div>
+</div>

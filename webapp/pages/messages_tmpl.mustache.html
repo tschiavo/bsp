@@ -1,0 +1,13 @@
+<div style="float: left;">
+{{#isme}}
+    {{#message_types}}
+    <a href="{{url}}?{{msg_type_key}}={{msg_type_id}}">{{msg_type_descr}} | </a>
+    {{/message_types}}
+    <a href="{{url}}?{{direction_key}}={{direction_to}}">to me | </a>
+    <a href="{{url}}?{{direction_key}}={{direction_from}}">from me</a>
+{{/isme}}
+{{^isme}}
+    <h3>Shared Messages</h3>
+{{/isme}}
+</div>
+

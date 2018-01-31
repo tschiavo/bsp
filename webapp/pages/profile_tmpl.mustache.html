@@ -1,0 +1,172 @@
+{{#has_moods}}
+{{#share_mood_all}}
+<script language="javascript" type="text/javascript" src="jquery.jqplot.js">
+</script>
+<script>
+$(document).ready(function(){
+    var plot1 = $.jqplot ('chartdiv', [{{mood_list}}, {{d7_mood_list}}], {  
+        series:[ { showMarker: false }, { showMarker: false } ],
+        axesDefaults: {
+            tickOptions: { 
+                show: false,
+                showMark: false, 
+                showGridline: false 
+            }
+        },
+        axes:{
+            xaxis:{
+                label:'days from {{first_time}}',
+                pad: 0,
+                tickOptions: { 
+                    show: true,
+                    showMark: true, 
+                    showGridline: true 
+                }
+            },
+            yaxis:{
+                min: .5,
+                max: 6.5
+            }
+        }
+    });
+});
+</script>
+{{/share_mood_all}}
+{{/has_moods}}
+
+<div id="maincontent">
+    <div class={{class_id}} id="{{profile_id}}">
+
+        <h2>
+            {{usersn}}
+            <br/>
+            {{^isme}}
+                <a href="{{yo_url}}?{{to_u_id_atom}}={{u_id}}&{{yo_action}}={{yo_action_value}}">Yo!</a> | 
+                <a href="{{vibe_url}}?{{to_u_id_atom}}={{u_id}}&{{to_u_sn_atom}}={{usersn}}">Vibe</a>
+            {{/isme}}
+
+            {{#has_moods}}
+            <img src="{{current_mood_img}}" height="24" width="24"/>
+            ({{current_mood_age}} day(s) old)
+            {{/has_moods}}
+        </h2>
+
+        {{#has_moods}}
+        <div class="profilesection">
+            <h3>Mood Summary</h3>
+            <img src="{{mood_1d_imgfile}}" height="16" width="16"/>
+            {{mood_1d}}
+            <img src="{{mood_7d_imgfile}}" height="16" width="16"/>
+            {{mood_7d}}
+            <img src="{{mood_30d_imgfile}}" height="16" width="16"/>
+            {{mood_30d}}
+            <br/>
+
+            {{#share_mood_all}}
+            <div id="chartdiv" style="height:140px;width:300px; "></div>
+            {{/share_mood_all}}
+        </div>
+        {{/has_moods}}
+
+        {{#photo_info}}
+        {{#is_shared}}
+        <div class="profilesection">
+            <img src="{{profilepic_url}}?uuid={{u_id}}" width="100"/>
+
+            {{#isme}}
+            <form action="{{profilepic_url}}" method="POST"
+                enctype="multipart/form-data">
+                <input type="file" name="datafile" size="40"></input>
+                <input type="submit" class="relbutton" value="upload"/>
+            </form>
+            {{/isme}}
+        </div>
+        {{/is_shared}}
+        {{/photo_info}}
+
+        <form action="/profile" method="post">
+
+            <div class="profilesection">
+            <h3>Personal Info</h3>
+            {{#personal_info}}
+                {{#isme}}
+                <span style="width:75px; float:left; color:#999999">
+                    {{item}}
+                </span>
+
+                <select id={{opt_id}} name="{{opt_id}}">
+                {{#sharing_level}}
+                    <option value="{{id}}" {{#sel}}selected={{/sel}}>
+                        {{descr}}
+                    </option>
+                {{/sharing_level}}
+                </select>
+
+                <input id={{txt_id}} type="text" name="{{txt_id}}"
+                    value="{{item_value}}">
+                </input>
+
+                <br/> <br/>
+                {{/isme}}
+
+                {{^isme}}
+                    
+                    {{#is_shared}}
+                    <span style="width:75px; float:left; color:#999999">
+                        {{item}}
+                    </span>
+
+                    <span>&nbsp;</span>
+
+                    {{item_value}}
+                    <br/> <br/>
+                    {{/is_shared}}
+
+                {{/isme}}
+            {{/personal_info}}
+            </div>
+
+            {{#isme}}
+                <div class="profilesection">
+                <h3>Mood Info</h3>
+                {{#mood_info}}
+                    <span style="width:75px; float:left; color:#999999">
+                        {{item}}
+                    </span>
+
+                    <select id={{opt_id}} name="{{opt_id}}">
+                    {{#sharing_level}}
+                        <option value="{{id}}" {{#sel}}selected={{/sel}}>
+                            {{descr}}
+                        </option>
+                    {{/sharing_level}}
+                    </select>
+                    <br/> <br/>
+                {{/mood_info}}
+                </div>
+
+                <div class="profilesection">
+                <h3>Photo Info</h3>
+                {{#photo_info}}
+                    <span style="width:75px; float:left; color:#999999">
+                        {{item}}
+                    </span>
+
+                    <select id={{opt_id}} name="{{opt_id}}">
+                    {{#sharing_level}}
+                        <option value="{{id}}" {{#sel}}selected={{/sel}}>
+                            {{descr}}
+                        </option>
+                        <p>{{item}}</p>
+                    {{/sharing_level}}
+                    </select>
+                    <br/> <br/>
+                {{/photo_info}}
+                </div>
+
+                <input type="submit" class="relbutton" 
+                    value="Update Profile"></input>
+            {{/isme}}
+        </form>
+    </div>
+</div>

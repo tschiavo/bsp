@@ -1,0 +1,13 @@
+sudo apt-get install curl
+sudo apt-get install ant
+sudo dpkg --add-architecture i386
+sudo apt-get update
+sudo apt-get install ia32-libs
+sudo apt-get install nodejs
+sudo ln -s /usr/bin/nodejs /usr/local/bin/node
+
+./scripts/makedevarea.sh
+./scripts/downloadbuilddev.sh
+./scripts/unpackbuildenv.sh
+./scripts/createandroidproj.sh
+./scripts/deploybuilddeploy.sh

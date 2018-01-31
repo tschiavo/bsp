@@ -1,0 +1,58 @@
+<div class="yo {{class_atom}}" id="{{divid_atom}}" style="clear:both; overflow:auto">
+    <div style="height:100%; float:left">
+        <img src="{{img}}" height="32" width="32"></img>
+    </div>
+
+    <div class="{{header_class_atom}}" style="float:left;">
+        <b>{{msg_time}}</b>
+        <br/>
+        to: <a href="{{profile_url}}?{{u_id_key}}={{to_id}}">{{to_sn}}</a>
+        from: <a href="{{profile_url}}?{{u_id_key}}={{from_id}}">{{from_sn}}</a>
+
+    </div>
+    <div style="float:right">
+        <form action="{{post_url}}?{{action_key}}={{action_archive}}&{{msg_id_key}}={{msg_id}}" method="POST">
+            <input type="submit" class="relbutton" value="archive"/>
+        </form>
+    </div>
+    <div style="float:right">
+        <form action="{{post_url}}?{{action_key}}={{action_delete}}&{{msg_id_key}}={{msg_id}}" method="POST">
+            <input type="submit" class="relbutton" value="trash"/>
+        </form>
+    </div>
+    <div style="clear:both; float:left">
+            {{msg_body}}
+    </div>
+    <div style="clear:both; float:left">
+    <div style="float:left">
+    <form action="{{yo_toggle_url}}?{{msg_id_key}}={{msg_id}}&{{show_all_key}}={{show_all}}" method="POST">
+        replies total: {{total_replies_count}} {{#has_new_replies}}<b>new: {{unviewed_replies_count}}</b>{{/has_new_replies}}<input type="submit" class={{button_class}} value={{^show_all}}"show/reply"{{/show_all}}{{#show_all}}"hide"{{/show_all}} id="{{send_btn_key}}" />
+    </form>
+    </div>
+    <div style="float:left">
+    <form action="{{messages_url}}?{{msg_id_key}}={{msg_id}}" method="POST">
+        <input type="submit" class={{button_class}} value="refresh" id="{{send_btn_key}}" />
+    </form>
+    </div>
+    </div>
+    {{#show_all}} 
+    <br/>
+    <div style="clear:both">
+    {{#replies}}
+    {{^been_viewed}}<b>{{/been_viewed}}
+    {{timestamp}} {{screen_name}}: {{reply_note}}
+    {{^been_viewed}}</b>{{/been_viewed}}
+    <br/><br/>
+    {{/replies}}
+    </div>
+    <br/> 
+
+    <form action="{{yo_url}}?{{msg_head_id_key}}={{msg_head_id}}" method="POST">
+        <label for="{{note_key}}">Note:</label>
+        <textarea maxlength="384" rows="4" cols="30" id="{{note_key}}" name="{{note_key}}"></textarea>
+        <br/>
+        <label for="{{send_btn_key}}">&nbsp;</label>
+        <input type="submit" class={{button_class}} value="send it" id="{{send_btn_key}}" />
+    </form>
+    {{/show_all}}
+</div>
